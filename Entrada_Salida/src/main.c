@@ -27,7 +27,7 @@ int main(void) {
 	//Init_Port_Salida(2,11);
 	//Init_Port_Salida(2,12);
 	Init_Port_Entrada(2,12);
-
+	volatile int i =0;
     // Enter an infinite loop, just incrementing a counter
     while(1) {
     	if(Estado_Pulsador(2,12) == 1){
@@ -35,12 +35,12 @@ int main(void) {
     		Output_High(0,22);
     	}
     	Output_Low(0,22);
-    	/*Toggle(0,22);
+    	Toggle(0,22);
     	for(i=0;i<1000000;i++);
     	Toggle(2,11);
     	for(i=0;i<1000000;i++);
     	Toggle(2,12);
-    	for(i=0;i<1000000;i++);*/
+    	for(i=0;i<1000000;i++);
 
     }
     return 0 ;
