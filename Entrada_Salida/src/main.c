@@ -19,6 +19,8 @@
 // TODO: insert other include files here
 
 // TODO: insert other definitions and declarations here
+#define ENCENDIDO 1
+#define APAGADO   0
 
 int main(void) {
 
@@ -27,20 +29,48 @@ int main(void) {
 	//Init_Port_Salida(2,11);
 	//Init_Port_Salida(2,12);
 	Init_Port_Entrada(2,12);
-	volatile int i =0;
+	int estado = APAGADO;
     // Enter an infinite loop, just incrementing a counter
     while(1) {
-    	if(Estado_Pulsador(2,12) == 1){
-    		while(!Estado_Pulsador(2,12)); // <-----ANTIREBOTE AQUI!!!
-    		Output_High(0,22);
+    	switch(estado){
+    	case APAGADO:
+    				if(Estado_Pulsador(2,12) == 1){
+    		    		while(!Estado_Pulsador(2,12)); // <-----ANTIREBOTE AQUI!!!
+    		    		estado = ENCENDIDO;
+    		    	}
+    				else{
+    					Output_Low(0,22);
+    					estado = APAGADO;
+    				}
+    				break;
+    	case ENCENDIDO:
+    				Output_High(0,22);
+    				if(Estado_Pulsador(2,12) == 1){
+    				    while(!Estado_Pulsador(2,12)); // <-----ANTIREBOTE AQUI!!!
+    				    estado = ENCENDIDO;
+    				 }
+
+    				else{
+    				    Output_Low(0,22);
+    				    estado = APAGADO;
+    				}
+    				break;
+    	default:
+    				break;
     	}
-    	Output_Low(0,22);
+    	/*if(Estado_Pulsador(2,12) == 1){
+    		while(!Estado_Pulsador(2,12));
+    		Output_Low(0,22);
+    	}
+    	else {
+    	Output_High(0,22);
+    	}
     	Toggle(0,22);
     	for(i=0;i<1000000;i++);
     	Toggle(2,11);
     	for(i=0;i<1000000;i++);
     	Toggle(2,12);
-    	for(i=0;i<1000000;i++);
+    	for(i=0;i<1000000;i++);*/
 
     }
     return 0 ;
